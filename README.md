@@ -1,4 +1,4 @@
-# facialdetect (duetpy)
+# facialdetect
 
 An end-to-end computer vision toolkit for feature extraction, binary classification, and batch image filtering.
 
