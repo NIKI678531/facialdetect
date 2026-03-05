@@ -108,6 +108,4 @@ Practical CV toolkit for SigLIP2 feature extraction, PyTorch training, and scala
 - Add benchmark scripts and sample dataset manifest
 
 ## License
-
-No license file is currently included.
-If you plan to open-source publicly, add a license such as MIT or Apache-2.0.
+MIT
