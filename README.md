@@ -1,86 +1,113 @@
-# duetpy
+# facialdetect (duetpy)
 
-一个面向图片特征识别与筛选的 Python 工具项目，主要用于：
+An end-to-end computer vision toolkit for feature extraction, binary classification, and batch image filtering.
 
-- 提取图片/人像/人脸 embedding（基于 SigLIP2）
-- 训练二分类特征模型（PyTorch）
-- 批量推理并按阈值筛选图片
-- 支持脚本化数据处理与离线评估
+This project is built for practical workflows: detect image attributes, score large photo sets, and automate filtering pipelines with reproducible scripts.
 
-## 项目特点
+## Why This Project
 
-- 提供 `train.py` 与 `predict_*.py` 的完整训练/推理流程
-- 支持 `person`、`face`、`all` 等不同特征位置
-- 包含 `app/` 与 `infrastructure/` 模块，方便扩展为服务化接口
-- 附带多个 `tool/` 下的数据处理脚本，便于业务场景快速复用
+- Production-style CV workflow: extract features -> train classifier -> run batch inference -> filter outputs
+- SigLIP2-powered embeddings for full-image, person-level, and face-level signals
+- Flexible scripts for data analysis, threshold tuning, and quality control
+- Easy to adapt for moderation, profile-photo quality checks, and attribute mining
 
-## 目录结构
+## Main Capabilities
+
+- Feature extraction from:
+  - full image (`all`)
+  - person crop (`person`)
+  - face crop (`face` / `face_only`)
+- PyTorch training with custom MLP + residual blocks
+- Threshold-based binary inference for high-volume datasets
+- Utility scripts for CSV processing, image copying, renaming, and evaluation
+
+## Repository Structure
 
 ```text
-duetpy/
-├── app/                    # 特征提取与业务逻辑
-├── infrastructure/         # 模型与图像处理工具
-├── model/                  # 视觉模型定义
-├── tool/                   # 辅助脚本（数据清洗/统计/转换）
-├── train.py                # 模型训练入口
-├── predict_single_pic.py   # 单图预测
-├── predict_batch.py        # 批量预测
+facialdetect/
+├── app/                          # Embedding extraction and app-level logic
+├── infrastructure/               # Model wrappers and image processing utils
+├── model/                        # Backbone/network definitions
+├── tool/                         # Data processing and evaluation scripts
+├── train.py                      # Training entry point
+├── predict_single_pic.py         # Single-image inference
+├── predict_batch.py              # Batch inference
+├── predict_batch_from_csv.py     # Batch inference with CSV
 └── README.md
 ```
 
-## 环境要求
+## Tech Stack
 
 - Python 3.10+
-- 推荐 macOS + Apple Silicon（项目中默认设备为 `mps`）
+- PyTorch / TorchVision
+- Transformers (SigLIP2)
+- OpenCV + Pillow
+- NumPy / Pandas / scikit-learn
+- Flask (service-oriented extension)
 
-常见依赖（按代码使用推断）：
-
-- `torch`
-- `torchvision`
-- `transformers`
-- `opencv-python`
-- `pillow`
-- `numpy`
-- `pandas`
-- `tqdm`
-- `flask`
-- `requests`
-- `scikit-learn`
-
-## 快速开始
-
-1. 克隆仓库
+## Installation
 
 ```bash
-git clone https://github.com/NIKI678531/duetpy.git
-cd duetpy
-```
-
-2. 安装依赖
-
-```bash
+git clone https://github.com/NIKI678531/facialdetect.git
+cd facialdetect
 pip install -U pip
 pip install torch torchvision transformers opencv-python pillow numpy pandas tqdm flask requests scikit-learn
 ```
 
-3. 训练模型（示例）
+## Quick Start
+
+### 1. Train a model
 
 ```bash
 python train.py PictureHighClarity person
 ```
 
-4. 批量预测（示例）
+Parameters:
+
+- `feature`: target label name (for example `PictureHighClarity`)
+- `location`: embedding source (`all`, `person`, or `face`)
+
+### 2. Run batch inference
 
 ```bash
-python predict_batch.py PictureHighClarity person model_weight/isPictureHighClarity/xxx.pth /path/to/images 0.65 1 female
+python predict_batch.py PictureHighClarity person model_weight/isPictureHighClarity/your_model.pth /path/to/images 0.65 1 female
 ```
 
-## 注意事项
+Arguments:
 
-- 代码中存在本地绝对路径（如 `/Users/...`），迁移到新机器时需要改为你自己的路径。
-- 默认使用 `mps`，若你没有 Apple GPU，可改为 `cpu` 或 `cuda`。
-- 建议将真实业务数据与模型权重放在仓库外部目录并通过配置传入。
+- `feature`
+- `location`
+- `model_path`
+- `image_dir`
+- `threshold`
+- `flag` (`1` for positive selection, `0` for inverse selection)
+- `gender` (used by current script variant)
 
-## 许可证
+### 3. Run single-image inference
 
-当前仓库未声明开源许可证。如需开源，建议补充 `MIT` 或 `Apache-2.0`。
+```bash
+python predict_single_pic.py PictureHighClarity person model_weight/isPictureHighClarity/your_model.pth /path/to/image.jpg 0.65
+```
+
+## Notes for New Machines
+
+- Some scripts contain local absolute paths (for example `/Users/...`) and should be updated for your environment.
+- Current code defaults to `mps` on Apple Silicon in several places.
+  - Use `cpu` or `cuda` if `mps` is unavailable.
+- Keep large datasets and model weights outside the repo when possible.
+
+## Suggested GitHub Description
+
+Practical CV toolkit for SigLIP2 feature extraction, PyTorch training, and scalable batch image filtering.
+
+## Roadmap Ideas
+
+- Add `requirements.txt` with pinned versions
+- Replace hard-coded paths with environment-based config
+- Provide Docker image and API deployment guide
+- Add benchmark scripts and sample dataset manifest
+
+## License
+
+No license file is currently included.
+If you plan to open-source publicly, add a license such as MIT or Apache-2.0.

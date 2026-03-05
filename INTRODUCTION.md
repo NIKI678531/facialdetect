@@ -1,12 +1,14 @@
-# 项目介绍（GitHub 可用）
+# Project Introduction
 
-`duetpy` 是一个用于图片特征识别与筛选的 Python 项目，围绕“特征提取 -> 模型训练 -> 批量推理 -> 结果筛选”构建，适用于头像质量、人物属性等二分类任务的快速实验与落地。
+`duetpy` is a practical computer-vision toolkit for image feature extraction, binary classification, and high-throughput filtering workflows.
 
-项目核心能力：
+It is designed for real production-style tasks such as profile-photo quality checks, attribute detection, moderation support, and dataset curation.
 
-- 基于 SigLIP2 的多粒度特征提取（整图/人像/人脸）
-- PyTorch 二分类模型训练与阈值优化
-- 面向批量图片的推理和自动筛图流程
-- 丰富的数据处理脚本，便于业务验证与回归测试
+Core strengths:
 
-如果你正在做图像审核、用户头像质量评估或标签挖掘，这个仓库可以作为实用的起点。
+- Multi-granularity embeddings with SigLIP2 (full image, person crop, face crop)
+- PyTorch-based training pipeline with threshold-oriented evaluation
+- Fast batch inference scripts for large image sets
+- Rich utility scripts for cleaning, analysis, and offline validation
+
+If you need to move quickly from experiments to usable CV pipelines, this repository gives you a solid and extensible starting point.
