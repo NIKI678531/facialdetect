@@ -1,0 +1,36 @@
+# System
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+
+# Virtual env
+.venv/
+venv/
+env/
+
+# Logs
+*.log
+
+# Local outputs and temp
+output/
+tmp/
+temp/
+
+# Model weights and large artifacts
+model_weight/
+*.pt
+*.pth
+*.pkl
+
+# Local datasets
+raw_data/
+*.csv
